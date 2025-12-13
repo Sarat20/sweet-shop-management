@@ -55,7 +55,7 @@ router.post("/:id/restock", authMiddleware, async (req, res) => {
 
 
 router.get("/search", async (req, res) => {
-  const { name, category } = req.query;
+  const { name, category, minPrice, maxPrice } = req.query;
 
   let query = {};
 
@@ -65,6 +65,16 @@ router.get("/search", async (req, res) => {
 
   if (category) {
     query.category = category;
+  }
+
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) {
+      query.price.$gte = Number(minPrice);
+    }
+    if (maxPrice) {
+      query.price.$lte = Number(maxPrice);
+    }
   }
 
   const sweets = await Sweet.find(query);
