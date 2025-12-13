@@ -1,6 +1,7 @@
 const express = require("express");
 const Sweet = require("../models/Sweet");
 const authMiddleware = require("../middleware/auth.middleware");
+const adminMiddleware = require("../middleware/admin.middleware");
 
 const router = express.Router();
 
@@ -86,6 +87,17 @@ router.put("/:id", authMiddleware, async (req, res) => {
   await sweet.save();
 
   res.status(200).json(sweet);
+});
+
+router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  const sweet = await Sweet.findById(req.params.id);
+  if (!sweet) {
+    return res.status(404).json({ message: "sweet not found" });
+  }
+
+  await Sweet.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({ message: "sweet deleted" });
 });
 
 module.exports = router;
