@@ -53,4 +53,21 @@ router.post("/:id/restock", authMiddleware, async (req, res) => {
 });
 
 
+router.get("/search", async (req, res) => {
+  const { name, category } = req.query;
+
+  let query = {};
+
+  if (name) {
+    query.name = new RegExp(name, "i");
+  }
+
+  if (category) {
+    query.category = category;
+  }
+
+  const sweets = await Sweet.find(query);
+  res.status(200).json(sweets);
+});
+
 module.exports = router;
