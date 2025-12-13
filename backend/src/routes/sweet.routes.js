@@ -39,7 +39,7 @@ router.post("/:id/purchase", authMiddleware, async (req, res) => {
 });
 
 
-router.post("/:id/restock", authMiddleware, async (req, res) => {
+router.post("/:id/restock", authMiddleware, adminMiddleware, async (req, res) => {
   const { quantity } = req.body;
 
   const sweet = await Sweet.findById(req.params.id);
