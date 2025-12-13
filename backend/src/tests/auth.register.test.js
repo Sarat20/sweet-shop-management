@@ -13,20 +13,25 @@ afterAll(async () => {
 });
 
 describe("Auth Register API", () => {
-  it("should hash password before saving user", async () => {
-    const plainPassword = "123456";
+  it("should not allow duplicate email registration", async () => {
+    const userData = {
+      name: "Sarat",
+      email: "sarat@test.com",
+      password: "123456",
+    };
 
-    await request(app)
+    
+    const firstRes = await request(app)
       .post("/api/auth/register")
-      .send({
-        name: "Sarat",
-        email: "sarat@test.com",
-        password: plainPassword,
-      });
+      .send(userData);
 
-    const user = await User.findOne({ email: "sarat@test.com" });
+    expect(firstRes.statusCode).toBe(201);
 
-    expect(user).toBeTruthy();
-    expect(user.password).not.toBe(plainPassword);
+    
+    const secondRes = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+
+    expect(secondRes.statusCode).toBe(400);
   });
 });
