@@ -22,57 +22,71 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 to-purple-100">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Login</h2>
+    <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 md:p-10 border border-gray-100">
+        <div className="text-center mb-8">
+          <h2 className="text-4xl font-extrabold text-gradient mb-3">Welcome Back</h2>
+          <p className="text-gray-600 text-lg">Sign in to your account</p>
+        </div>
         
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded mb-6">
+            <p className="font-semibold">{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Email Address</label>
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="input-field"
               required
             />
           </div>
 
-          <div className="mb-6">
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Password</label>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="input-field"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition duration-200"
+            className="btn-primary w-full"
           >
-            Login
+            Sign In
           </button>
         </form>
 
-        <p className="mt-4 text-center text-gray-600">
-          Don't have an account?{' '}
-          <a href="/register" className="text-purple-600 hover:underline font-semibold">
-            Register
-          </a>
-        </p>
+        <div className="mt-6 text-center space-y-3">
+          <p className="text-gray-600">
+            Don't have an account?{' '}
+            <a href="/register" className="text-indigo-600 hover:text-indigo-700 font-semibold underline">
+              Create Account
+            </a>
+          </p>
+          <div className="border-t pt-4">
+            <a 
+              href="/login" 
+              className="text-indigo-600 hover:text-indigo-700 font-semibold text-sm"
+            >
+              Login as Admin
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
 export default Login
-

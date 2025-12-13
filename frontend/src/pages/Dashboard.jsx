@@ -85,103 +85,119 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-primary">
       <Header isAdmin={isAdmin} />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-4xl font-bold text-gray-800 mb-6">Sweet Shop</h1>
-          
-          <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
+        <div className="mb-8">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-gradient mb-2">Sweet Shop</h1>
+          <p className="text-gray-600 text-lg">Browse our delicious collection</p>
+        </div>
+        
+        <div className="card p-6 mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Search & Filter</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-sm">Search by Name</label>
               <input
                 type="text"
-                placeholder="Search by name"
+                placeholder="Enter name"
                 value={filters.name}
                 onChange={(e) => setFilters({ ...filters, name: e.target.value })}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              
-              <input
-                type="text"
-                placeholder="Category"
-                value={filters.category}
-                onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              
-              <input
-                type="number"
-                placeholder="Min Price"
-                value={filters.minPrice}
-                onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              
-              <input
-                type="number"
-                placeholder="Max Price"
-                value={filters.maxPrice}
-                onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="input-field"
               />
             </div>
             
-            <div className="flex gap-2">
-              <button
-                onClick={handleSearch}
-                className="px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition duration-200"
-              >
-                Search
-              </button>
-              {isAdmin && (
-                <button
-                  onClick={() => {
-                    setEditingSweet(null)
-                    setShowAddForm(!showAddForm)
-                  }}
-                  className="px-6 py-2 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition duration-200"
-                >
-                  {showAddForm ? 'Cancel' : 'Add Sweet'}
-                </button>
-              )}
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-sm">Category</label>
+              <input
+                type="text"
+                placeholder="Enter category"
+                value={filters.category}
+                onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                className="input-field"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-sm">Min Price (₹)</label>
+              <input
+                type="number"
+                placeholder="Minimum"
+                value={filters.minPrice}
+                onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+                className="input-field"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2 text-sm">Max Price (₹)</label>
+              <input
+                type="number"
+                placeholder="Maximum"
+                value={filters.maxPrice}
+                onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+                className="input-field"
+              />
             </div>
           </div>
-
-          {showAddForm && (
-            <div className="mb-6">
-              {editingSweet ? (
-                <EditSweetForm
-                  sweet={editingSweet}
-                  onUpdate={handleUpdate}
-                  onCancel={() => {
-                    setEditingSweet(null)
-                    setShowAddForm(false)
-                  }}
-                />
-              ) : (
-                <AddSweetForm
-                  onSuccess={() => {
-                    setShowAddForm(false)
-                    loadSweets()
-                  }}
-                  onCancel={() => setShowAddForm(false)}
-                />
-              )}
-            </div>
-          )}
+          
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={handleSearch}
+              className="btn-primary"
+            >
+              Search Sweets
+            </button>
+            {isAdmin && (
+              <button
+                onClick={() => {
+                  setEditingSweet(null)
+                  setShowAddForm(!showAddForm)
+                }}
+                className="btn-success"
+              >
+                {showAddForm ? 'Cancel' : 'Add New Sweet'}
+              </button>
+            )}
+          </div>
         </div>
 
+        {showAddForm && (
+          <div className="mb-8">
+            {editingSweet ? (
+              <EditSweetForm
+                sweet={editingSweet}
+                onUpdate={handleUpdate}
+                onCancel={() => {
+                  setEditingSweet(null)
+                  setShowAddForm(false)
+                }}
+              />
+            ) : (
+              <AddSweetForm
+                onSuccess={() => {
+                  setShowAddForm(false)
+                  loadSweets()
+                }}
+                onCancel={() => setShowAddForm(false)}
+              />
+            )}
+          </div>
+        )}
+
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600">Loading sweets...</p>
+          <div className="text-center py-20">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+            <p className="mt-4 text-gray-600 text-lg">Loading sweets...</p>
           </div>
         ) : sweets.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">No sweets found</p>
+          <div className="text-center py-20 card">
+            <p className="text-gray-600 text-xl font-semibold">No sweets found</p>
+            <p className="text-gray-500 mt-2">Try adjusting your search filters</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {sweets.map((sweet) => (
               <SweetCard
                 key={sweet._id}
@@ -231,59 +247,71 @@ const EditSweetForm = ({ sweet, onUpdate, onCancel }) => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold text-gray-800 mb-4">Edit Sweet</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-          required
-        />
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          value={formData.category}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-          required
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-          required
-          min="0"
-        />
-        <input
-          type="number"
-          name="quantity"
-          placeholder="Quantity"
-          value={formData.quantity}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-          required
-          min="0"
-        />
-        <div className="flex gap-2">
+    <div className="card p-6 md:p-8">
+      <h3 className="text-2xl font-extrabold text-gradient mb-6">Edit Sweet</h3>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label className="block text-gray-700 font-semibold mb-2">Sweet Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter sweet name"
+            value={formData.name}
+            onChange={handleChange}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-semibold mb-2">Category</label>
+          <input
+            type="text"
+            name="category"
+            placeholder="Enter category"
+            value={formData.category}
+            onChange={handleChange}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-semibold mb-2">Price (₹)</label>
+          <input
+            type="number"
+            name="price"
+            placeholder="Enter price"
+            value={formData.price}
+            onChange={handleChange}
+            className="input-field"
+            required
+            min="0"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-semibold mb-2">Quantity in Stock</label>
+          <input
+            type="number"
+            name="quantity"
+            placeholder="Enter quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            className="input-field"
+            required
+            min="0"
+          />
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-200 disabled:opacity-50"
+            className="btn-primary flex-1 disabled:opacity-50"
           >
-            {loading ? 'Updating...' : 'Update'}
+            {loading ? 'Updating...' : 'Update Sweet'}
           </button>
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition duration-200"
+            className="btn-secondary"
           >
             Cancel
           </button>
@@ -294,4 +322,3 @@ const EditSweetForm = ({ sweet, onUpdate, onCancel }) => {
 }
 
 export default Dashboard
-
