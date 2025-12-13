@@ -1,22 +1,32 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 const app = require("../app");
+const User = require("../models/User");
+
+beforeAll(async () => {
+  await mongoose.connect(process.env.MONGO_URI);
+});
+
+afterAll(async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+});
 
 describe("Auth Register API", () => {
-  beforeAll(async () => {
-    await mongoose.connection.dropDatabase();
-  });
+  it("should hash password before saving user", async () => {
+    const plainPassword = "123456";
 
-  it("should register a new user and save to database", async () => {
-    const response = await request(app)
+    await request(app)
       .post("/api/auth/register")
       .send({
         name: "Sarat",
         email: "sarat@test.com",
-        password: "123456",
+        password: plainPassword,
       });
 
-    expect(response.statusCode).toBe(201);
-    expect(response.body.email).toBe("sarat@test.com");
+    const user = await User.findOne({ email: "sarat@test.com" });
+
+    expect(user).toBeTruthy();
+    expect(user.password).not.toBe(plainPassword);
   });
 });
