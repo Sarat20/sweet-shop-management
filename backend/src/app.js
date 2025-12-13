@@ -17,4 +17,9 @@ app.get("/api/protected", authMiddleware, (req, res) => {
   res.status(200).json({ message: "access ok" });
 });
 
+const adminMiddleware = require("./middleware/admin.middleware");
+app.get("/api/protected-admin", authMiddleware, adminMiddleware, (req, res) => {
+  res.status(200).json({ message: "admin access ok" });
+});
+
 module.exports = app;
