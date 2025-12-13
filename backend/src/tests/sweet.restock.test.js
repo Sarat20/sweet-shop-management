@@ -10,14 +10,27 @@ beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URI);
 
   const hashed = await bcrypt.hash("123456", 10);
-  const user = await User.create({
-    name: "sarat",
-    email: "sarat@test.com",
+  const regularUser = await User.create({
+    name: "regular user",
+    email: "regular@test.com",
     password: hashed,
+    role: "user",
   });
 
-  global.token = jwt.sign(
-    { userId: user._id },
+  const adminUser = await User.create({
+    name: "admin user",
+    email: "admin@test.com",
+    password: hashed,
+    role: "admin",
+  });
+
+  global.regularToken = jwt.sign(
+    { userId: regularUser._id },
+    process.env.JWT_SECRET
+  );
+
+  global.adminToken = jwt.sign(
+    { userId: adminUser._id },
     process.env.JWT_SECRET
   );
 
@@ -35,15 +48,24 @@ afterAll(async () => {
 });
 
 describe("restock sweet api", () => {
-  it("should increase sweet quantity", async () => {
+  it("should increase sweet quantity when admin token is provided", async () => {
     const res = await request(app)
       .post(`/api/sweets/${global.sweet._id}/restock`)
-      .set("Authorization", `Bearer ${global.token}`)
+      .set("Authorization", `Bearer ${global.adminToken}`)
       .send({ quantity: 5 });
 
     expect(res.statusCode).toBe(200);
 
     const sweet = await Sweet.findById(global.sweet._id);
     expect(sweet.quantity).toBe(10);
+  });
+
+  it("should return 403 when regular user tries to restock", async () => {
+    const res = await request(app)
+      .post(`/api/sweets/${global.sweet._id}/restock`)
+      .set("Authorization", `Bearer ${global.regularToken}`)
+      .send({ quantity: 5 });
+
+    expect(res.statusCode).toBe(403);
   });
 });
