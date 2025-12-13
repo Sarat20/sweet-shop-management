@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/api'
+import '../index.css'
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -22,15 +23,15 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-secondary flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 md:p-10 border border-gray-100">
+    <div className="bg-gradient-secondary flex items-center justify-center" style={{ minHeight: '100vh', padding: '1rem' }}>
+      <div className="card w-full max-w-md p-8" style={{ maxWidth: '28rem' }}>
         <div className="text-center mb-8">
           <h2 className="text-4xl font-extrabold text-gradient mb-3">Create Account</h2>
           <p className="text-gray-600 text-lg">Join us today</p>
         </div>
         
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6">
             <p className="font-semibold">{error}</p>
           </div>
         )}
@@ -74,7 +75,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="btn-primary w-full"
+            className="btn-primary"
           >
             Create Account
           </button>
@@ -82,7 +83,7 @@ const Register = () => {
 
         <p className="mt-6 text-center text-gray-600">
           Already have an account?{' '}
-          <a href="/login" className="text-indigo-600 hover:text-indigo-700 font-semibold underline">
+          <a href="/login" className="text-indigo-600 font-semibold underline" style={{ textDecoration: 'underline' }}>
             Sign In
           </a>
         </p>

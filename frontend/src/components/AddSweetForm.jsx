@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import api from '../api/api'
+import '../index.css'
 
 const AddSweetForm = ({ onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -40,16 +41,16 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
   }
 
   return (
-    <div className="card p-6 md:p-8">
+    <div className="card p-6">
       <h3 className="text-2xl font-extrabold text-gradient mb-6">Add New Sweet</h3>
       
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded mb-6">
+        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6">
           <p className="font-semibold">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-gray-700 font-semibold mb-2">Sweet Name</label>
           <input
@@ -104,11 +105,12 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex gap-3" style={{ flexDirection: window.innerWidth < 640 ? 'column' : 'row' }}>
           <button
             type="submit"
             disabled={loading}
-            className="btn-success flex-1 disabled:opacity-50"
+            className="btn-success"
+            style={{ flex: 1, opacity: loading ? 0.5 : 1 }}
           >
             {loading ? 'Adding...' : 'Add Sweet'}
           </button>

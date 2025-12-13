@@ -3,6 +3,7 @@ import api from '../api/api'
 import SweetCard from '../components/SweetCard'
 import AddSweetForm from '../components/AddSweetForm'
 import Header from '../components/Header'
+import '../index.css'
 
 const Dashboard = () => {
   const [sweets, setSweets] = useState([])
@@ -85,20 +86,25 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-primary">
+    <div className="bg-gradient-primary" style={{ minHeight: '100vh' }}>
       <Header isAdmin={isAdmin} />
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-gradient mb-2">Sweet Shop</h1>
+      <div className="container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <h1 className="text-4xl font-extrabold text-gradient mb-2">Sweet Shop</h1>
           <p className="text-gray-600 text-lg">Browse our delicious collection</p>
         </div>
         
         <div className="card p-6 mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Search & Filter</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1rem',
+            marginBottom: '1.5rem'
+          }}>
             <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-sm">Search by Name</label>
+              <label className="block text-gray-700 font-semibold mb-2" style={{ fontSize: '0.875rem' }}>Search by Name</label>
               <input
                 type="text"
                 placeholder="Enter name"
@@ -109,7 +115,7 @@ const Dashboard = () => {
             </div>
             
             <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-sm">Category</label>
+              <label className="block text-gray-700 font-semibold mb-2" style={{ fontSize: '0.875rem' }}>Category</label>
               <input
                 type="text"
                 placeholder="Enter category"
@@ -120,7 +126,7 @@ const Dashboard = () => {
             </div>
             
             <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-sm">Min Price (₹)</label>
+              <label className="block text-gray-700 font-semibold mb-2" style={{ fontSize: '0.875rem' }}>Min Price (₹)</label>
               <input
                 type="number"
                 placeholder="Minimum"
@@ -131,7 +137,7 @@ const Dashboard = () => {
             </div>
             
             <div>
-              <label className="block text-gray-700 font-semibold mb-2 text-sm">Max Price (₹)</label>
+              <label className="block text-gray-700 font-semibold mb-2" style={{ fontSize: '0.875rem' }}>Max Price (₹)</label>
               <input
                 type="number"
                 placeholder="Maximum"
@@ -142,10 +148,11 @@ const Dashboard = () => {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex gap-3" style={{ flexDirection: window.innerWidth < 640 ? 'column' : 'row' }}>
             <button
               onClick={handleSearch}
               className="btn-primary"
+              style={{ width: window.innerWidth < 640 ? '100%' : 'auto' }}
             >
               Search Sweets
             </button>
@@ -156,6 +163,7 @@ const Dashboard = () => {
                   setShowAddForm(!showAddForm)
                 }}
                 className="btn-success"
+                style={{ width: window.innerWidth < 640 ? '100%' : 'auto' }}
               >
                 {showAddForm ? 'Cancel' : 'Add New Sweet'}
               </button>
@@ -164,7 +172,7 @@ const Dashboard = () => {
         </div>
 
         {showAddForm && (
-          <div className="mb-8">
+          <div style={{ marginBottom: '2rem' }}>
             {editingSweet ? (
               <EditSweetForm
                 sweet={editingSweet}
@@ -188,16 +196,19 @@ const Dashboard = () => {
 
         {loading ? (
           <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+            <div className="loading-spinner"></div>
             <p className="mt-4 text-gray-600 text-lg">Loading sweets...</p>
           </div>
         ) : sweets.length === 0 ? (
           <div className="text-center py-20 card">
             <p className="text-gray-600 text-xl font-semibold">No sweets found</p>
-            <p className="text-gray-500 mt-2">Try adjusting your search filters</p>
+            <p style={{ color: '#6b7280', marginTop: '0.5rem' }}>Try adjusting your search filters</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1" style={{
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '1.5rem'
+          }}>
             {sweets.map((sweet) => (
               <SweetCard
                 key={sweet._id}
@@ -247,9 +258,9 @@ const EditSweetForm = ({ sweet, onUpdate, onCancel }) => {
   }
 
   return (
-    <div className="card p-6 md:p-8">
+    <div className="card p-6">
       <h3 className="text-2xl font-extrabold text-gradient mb-6">Edit Sweet</h3>
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-gray-700 font-semibold mb-2">Sweet Name</label>
           <input
@@ -300,11 +311,12 @@ const EditSweetForm = ({ sweet, onUpdate, onCancel }) => {
             min="0"
           />
         </div>
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex gap-3" style={{ flexDirection: window.innerWidth < 640 ? 'column' : 'row' }}>
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary flex-1 disabled:opacity-50"
+            className="btn-primary"
+            style={{ flex: 1, opacity: loading ? 0.5 : 1 }}
           >
             {loading ? 'Updating...' : 'Update Sweet'}
           </button>

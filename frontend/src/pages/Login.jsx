@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/api'
+import '../index.css'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -22,15 +23,15 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 md:p-10 border border-gray-100">
+    <div className="bg-gradient-primary flex items-center justify-center" style={{ minHeight: '100vh', padding: '1rem' }}>
+      <div className="card w-full max-w-md p-8" style={{ maxWidth: '28rem' }}>
         <div className="text-center mb-8">
           <h2 className="text-4xl font-extrabold text-gradient mb-3">Welcome Back</h2>
           <p className="text-gray-600 text-lg">Sign in to your account</p>
         </div>
         
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6">
             <p className="font-semibold">{error}</p>
           </div>
         )}
@@ -62,7 +63,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="btn-primary w-full"
+            className="btn-primary"
           >
             Sign In
           </button>
@@ -71,14 +72,15 @@ const Login = () => {
         <div className="mt-6 text-center space-y-3">
           <p className="text-gray-600">
             Don't have an account?{' '}
-            <a href="/register" className="text-indigo-600 hover:text-indigo-700 font-semibold underline">
+            <a href="/register" className="text-indigo-600 font-semibold underline" style={{ textDecoration: 'underline' }}>
               Create Account
             </a>
           </p>
-          <div className="border-t pt-4">
+          <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
             <a 
               href="/login" 
-              className="text-indigo-600 hover:text-indigo-700 font-semibold text-sm"
+              className="text-indigo-600 font-semibold"
+              style={{ fontSize: '0.875rem', display: 'block', textAlign: 'center' }}
             >
               Login as Admin
             </a>
