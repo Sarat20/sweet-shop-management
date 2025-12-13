@@ -23,4 +23,19 @@ router.get("/", async (req, res) => {
   res.status(200).json(sweets);
 });
 
+
+router.post("/:id/purchase", authMiddleware, async (req, res) => {
+  const sweet = await Sweet.findById(req.params.id);
+
+  if (!sweet || sweet.quantity <= 0) {
+    return res.status(400).json({ message: "sweet not avilable" });
+  }
+
+  sweet.quantity -= 1;
+  await sweet.save();
+
+  res.status(200).json(sweet);
+});
+
+
 module.exports = router;
