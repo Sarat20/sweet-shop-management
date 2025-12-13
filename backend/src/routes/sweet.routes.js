@@ -70,4 +70,22 @@ router.get("/search", async (req, res) => {
   res.status(200).json(sweets);
 });
 
+router.put("/:id", authMiddleware, async (req, res) => {
+  const { name, category, price, quantity } = req.body;
+
+  const sweet = await Sweet.findById(req.params.id);
+  if (!sweet) {
+    return res.status(404).json({ message: "sweet not found" });
+  }
+
+  sweet.name = name || sweet.name;
+  sweet.category = category || sweet.category;
+  sweet.price = price !== undefined ? price : sweet.price;
+  sweet.quantity = quantity !== undefined ? quantity : sweet.quantity;
+
+  await sweet.save();
+
+  res.status(200).json(sweet);
+});
+
 module.exports = router;
