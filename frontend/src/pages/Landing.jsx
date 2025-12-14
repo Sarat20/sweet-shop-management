@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import AuthSidebar from '../components/AuthSidebar'
 import '../index.css'
 
 const Landing = () => {
@@ -18,43 +19,7 @@ const Landing = () => {
       display: 'flex', 
       background: '#fff'
     }}>
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '40px',
-        background: 'linear-gradient(135deg, #fc8019 0%, #ff6b35 100%)'
-      }}>
-        <div style={{
-          textAlign: 'center',
-          color: '#fff'
-        }}>
-          <h1 style={{
-            fontSize: '64px',
-            fontWeight: 800,
-            marginBottom: '20px',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
-          }}>
-            Sweet Shop
-          </h1>
-          <p style={{
-            fontSize: '24px',
-            fontStyle: 'italic',
-            marginTop: '30px',
-            opacity: 0.95
-          }}>
-            "Buy sweets, spread happiness"
-          </p>
-        </div>
-        <div style={{
-          marginTop: '60px',
-          fontSize: '120px'
-        }}>
-          🍬
-        </div>
-      </div>
+      <AuthSidebar />
       
       <div style={{
         flex: 1,
