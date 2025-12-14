@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import Register from './Register'
@@ -6,17 +6,20 @@ import api from '../api/api'
 
 vi.mock('../api/api')
 
-describe('Register', () => {
-  const mockNavigate = vi.fn()
+const mockNavigate = vi.fn()
 
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate
+  }
+})
+
+describe('Register', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     localStorage.clear()
-    vi.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(mockNavigate)
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
   })
 
   it('should render registration form with all required fields', () => {
@@ -26,7 +29,7 @@ describe('Register', () => {
       </BrowserRouter>
     )
 
-    expect(screen.getByText('Create Account')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /create account/i })).toBeInTheDocument()
     expect(screen.getByText('Join us today')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Enter your full name')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Enter your email')).toBeInTheDocument()

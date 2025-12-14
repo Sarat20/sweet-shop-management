@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import Login from './Login'
@@ -8,19 +8,23 @@ import * as authUtils from '../utils/auth'
 vi.mock('../api/api')
 vi.mock('../utils/auth')
 
+const mockNavigate = vi.fn()
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate
+  }
+})
+
 describe('Login', () => {
-  const mockNavigate = vi.fn()
   const mockDecodeToken = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
     localStorage.clear()
-    vi.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(mockNavigate)
     authUtils.decodeToken = mockDecodeToken
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
   })
 
   it('should render login form with email and password fields', () => {
@@ -86,6 +90,9 @@ describe('Login', () => {
     })
 
     expect(localStorage.getItem('token')).toBe(mockToken)
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/dashboard')
+    })
   })
 
   it('should clear form fields after successful login', async () => {
