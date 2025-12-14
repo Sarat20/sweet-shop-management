@@ -3,6 +3,7 @@ import api from '../api/api'
 import SweetCard from '../components/SweetCard'
 import AddSweetForm from '../components/AddSweetForm'
 import Header from '../components/Header'
+import { isAdmin } from '../utils/auth'
 import '../index.css'
 
 const Dashboard = () => {
@@ -16,24 +17,12 @@ const Dashboard = () => {
   })
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingSweet, setEditingSweet] = useState(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [userIsAdmin, setUserIsAdmin] = useState(false)
 
   useEffect(() => {
-    checkAdminStatus()
+    setUserIsAdmin(isAdmin())
     loadSweets()
   }, [])
-
-  const checkAdminStatus = async () => {
-    try {
-      const token = localStorage.getItem('token')
-      if (token) {
-        const response = await api.get('/sweets')
-        setIsAdmin(true)
-      }
-    } catch (err) {
-      setIsAdmin(false)
-    }
-  }
 
   const loadSweets = async () => {
     setLoading(true)
@@ -87,7 +76,7 @@ const Dashboard = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff' }}>
-      <Header isAdmin={isAdmin} />
+      <Header />
       
       <div className="container" style={{ paddingTop: '32px', paddingBottom: '32px' }}>
         <div style={{ marginBottom: '32px' }}>
@@ -156,7 +145,7 @@ const Dashboard = () => {
             >
               Search Sweets
             </button>
-            {isAdmin && (
+            {userIsAdmin && (
               <button
                 onClick={() => {
                   setEditingSweet(null)
@@ -171,7 +160,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {showAddForm && (
+        {showAddForm && userIsAdmin && (
           <div style={{ marginBottom: '32px' }}>
             {editingSweet ? (
               <EditSweetForm
@@ -215,7 +204,7 @@ const Dashboard = () => {
                 key={sweet._id}
                 sweet={sweet}
                 reload={loadSweets}
-                isAdmin={isAdmin}
+                isAdmin={userIsAdmin}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
               />

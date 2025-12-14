@@ -1,13 +1,23 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import api from '../api/api'
+import { decodeToken } from '../utils/auth'
 import '../index.css'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isAdminLogin, setIsAdminLogin] = useState(false)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const adminParam = searchParams.get('admin')
+    if (adminParam === 'true') {
+      setIsAdminLogin(true)
+    }
+  }, [searchParams])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -15,6 +25,13 @@ const Login = () => {
 
     try {
       const res = await api.post('/auth/login', { email, password })
+      const decoded = decodeToken(res.data.token)
+      
+      if (isAdminLogin && decoded.role !== 'admin') {
+        setError('You are not authorized to login as admin')
+        return
+      }
+      
       localStorage.setItem('token', res.data.token)
       navigate('/')
     } catch (err) {
@@ -22,11 +39,18 @@ const Login = () => {
     }
   }
 
+  const handleAdminLogin = () => {
+    setIsAdminLogin(true)
+    setError('')
+  }
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: '#fff' }}>
       <div className="card" style={{ width: '100%', maxWidth: '400px', padding: '32px' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 700, color: '#fc8019', marginBottom: '8px' }}>Welcome Back</h2>
+          <h2 style={{ fontSize: '28px', fontWeight: 700, color: '#fc8019', marginBottom: '8px' }}>
+            {isAdminLogin ? 'Admin Login' : 'Welcome Back'}
+          </h2>
           <p style={{ color: '#666', fontSize: '16px' }}>Sign in to your account</p>
         </div>
         
@@ -78,14 +102,16 @@ const Login = () => {
               </a>
             </p>
           </div>
-          <div style={{ borderTop: '1px solid #e8e8e8', paddingTop: '16px' }}>
-            <a 
-              href="/login" 
-              style={{ color: '#fc8019', fontWeight: 600, fontSize: '14px', display: 'block' }}
-            >
-              Login as Admin
-            </a>
-          </div>
+          {!isAdminLogin && (
+            <div style={{ borderTop: '1px solid #e8e8e8', paddingTop: '16px' }}>
+              <button
+                onClick={handleAdminLogin}
+                style={{ color: '#fc8019', fontWeight: 600, fontSize: '14px', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+              >
+                Login as Admin
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
