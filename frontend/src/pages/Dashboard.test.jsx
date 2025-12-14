@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import Dashboard from './Dashboard'
 import api from '../api/api'
@@ -9,6 +9,7 @@ vi.mock('../api/api')
 describe('Dashboard', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    localStorage.setItem('token', 'test-token')
   })
 
   it('should filter sweets by category when category is selected', async () => {
@@ -30,11 +31,15 @@ describe('Dashboard', () => {
       expect(api.get).toHaveBeenCalled()
     })
 
-    const categorySelect = screen.getByLabelText(/category/i)
-    fireEvent.change(categorySelect, { target: { value: 'Indian' } })
+    const categoryInput = screen.getByPlaceholderText('Enter category')
+    await act(async () => {
+      fireEvent.change(categoryInput, { target: { value: 'Indian' } })
+    })
 
-    const searchButton = screen.getByRole('button', { name: /search/i })
-    fireEvent.click(searchButton)
+    const searchButton = screen.getByRole('button', { name: /search sweets/i })
+    await act(async () => {
+      fireEvent.click(searchButton)
+    })
 
     await waitFor(() => {
       expect(api.get).toHaveBeenCalledWith(
@@ -52,14 +57,22 @@ describe('Dashboard', () => {
       </BrowserRouter>
     )
 
-    const minPriceInput = screen.getByPlaceholderText(/min price/i)
-    const maxPriceInput = screen.getByPlaceholderText(/max price/i)
+    await waitFor(() => {
+      expect(api.get).toHaveBeenCalled()
+    })
 
-    fireEvent.change(minPriceInput, { target: { value: '40' } })
-    fireEvent.change(maxPriceInput, { target: { value: '100' } })
+    const minPriceInput = screen.getByPlaceholderText('Minimum')
+    const maxPriceInput = screen.getByPlaceholderText('Maximum')
 
-    const searchButton = screen.getByRole('button', { name: /search/i })
-    fireEvent.click(searchButton)
+    await act(async () => {
+      fireEvent.change(minPriceInput, { target: { value: '40' } })
+      fireEvent.change(maxPriceInput, { target: { value: '100' } })
+    })
+
+    const searchButton = screen.getByRole('button', { name: /search sweets/i })
+    await act(async () => {
+      fireEvent.click(searchButton)
+    })
 
     await waitFor(() => {
       expect(api.get).toHaveBeenCalledWith(
