@@ -62,4 +62,3 @@ const AuthSidebar = () => {
 }
 
 export default AuthSidebar
-

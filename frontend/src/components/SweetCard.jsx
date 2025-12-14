@@ -74,7 +74,7 @@ const SweetCard = ({ sweet, reload, isAdmin, onEdit, onDelete }) => {
               onClick={() => onEdit(sweet)}
               className="edit-btn"
             >
-              Edit
+              Update
             </button>
             <button
               onClick={() => onDelete(sweet._id)}
