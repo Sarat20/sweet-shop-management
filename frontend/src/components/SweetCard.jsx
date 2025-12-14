@@ -21,34 +21,34 @@ const SweetCard = ({ sweet, reload, isAdmin, onEdit, onDelete }) => {
 
   return (
     <div className="sweet-card">
-      <div className="flex justify-between items-start mb-4">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
         <h3 className="sweet-name">{sweet.name}</h3>
         <span className="category-badge">
           {sweet.category}
         </span>
       </div>
       
-      <div style={{ marginBottom: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', marginBottom: '0.75rem' }}>
-          <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>₹</span>
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '8px' }}>
+          <span style={{ fontSize: '14px', color: '#999' }}>₹</span>
           <p className="price">{sweet.price}</p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#4b5563' }}>Stock:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '13px', fontWeight: 500, color: '#666' }}>Stock:</span>
           <span style={{ 
-            fontSize: '1.125rem', 
+            fontSize: '16px', 
             fontWeight: 700, 
-            color: sweet.quantity > 0 ? '#16a34a' : '#dc2626' 
+            color: sweet.quantity > 0 ? '#60b246' : '#ff3f6c' 
           }}>
             {sweet.quantity}
           </span>
           {sweet.quantity === 0 && (
             <span style={{
-              fontSize: '0.75rem',
-              background: '#fef2f2',
-              color: '#b91c1c',
-              padding: '0.25rem 0.5rem',
-              borderRadius: '9999px',
+              fontSize: '11px',
+              background: '#fff5f5',
+              color: '#ff1744',
+              padding: '4px 8px',
+              borderRadius: '12px',
               fontWeight: 600
             }}>
               Out of Stock
@@ -57,7 +57,7 @@ const SweetCard = ({ sweet, reload, isAdmin, onEdit, onDelete }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <button
           onClick={handlePurchase}
           disabled={sweet.quantity === 0 || loading}
@@ -67,7 +67,7 @@ const SweetCard = ({ sweet, reload, isAdmin, onEdit, onDelete }) => {
         </button>
 
         {isAdmin && (
-          <div className="flex gap-2">
+          <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={() => onEdit(sweet)}
               className="edit-btn"

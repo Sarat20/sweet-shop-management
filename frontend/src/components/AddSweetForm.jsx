@@ -42,17 +42,17 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
 
   return (
     <div className="card p-6">
-      <h3 className="text-2xl font-extrabold text-gradient mb-6">Add New Sweet</h3>
+      <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#fc8019', marginBottom: '24px' }}>Add New Sweet</h3>
       
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6">
-          <p className="font-semibold">{error}</p>
+        <div style={{ background: '#fff5f5', borderLeft: '4px solid #ff3f6c', color: '#ff1744', padding: '12px 16px', borderRadius: '4px', marginBottom: '24px' }}>
+          <p style={{ fontWeight: 600 }}>{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
-          <label className="block text-gray-700 font-semibold mb-2">Sweet Name</label>
+          <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Sweet Name</label>
           <input
             type="text"
             name="name"
@@ -65,7 +65,7 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-semibold mb-2">Category</label>
+          <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Category</label>
           <input
             type="text"
             name="category"
@@ -78,7 +78,7 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-semibold mb-2">Price (₹)</label>
+          <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Price (₹)</label>
           <input
             type="number"
             name="price"
@@ -92,7 +92,7 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-semibold mb-2">Quantity in Stock</label>
+          <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Quantity in Stock</label>
           <input
             type="number"
             name="quantity"
@@ -105,12 +105,12 @@ const AddSweetForm = ({ onSuccess, onCancel }) => {
           />
         </div>
 
-        <div className="flex gap-3" style={{ flexDirection: window.innerWidth < 640 ? 'column' : 'row' }}>
+        <div style={{ display: 'flex', gap: '12px', flexDirection: window.innerWidth < 640 ? 'column' : 'row' }}>
           <button
             type="submit"
             disabled={loading}
             className="btn-success"
-            style={{ flex: 1, opacity: loading ? 0.5 : 1 }}
+            style={{ flex: 1, opacity: loading ? 0.6 : 1 }}
           >
             {loading ? 'Adding...' : 'Add Sweet'}
           </button>

@@ -23,22 +23,22 @@ const Register = () => {
   }
 
   return (
-    <div className="bg-gradient-secondary flex items-center justify-center" style={{ minHeight: '100vh', padding: '1rem' }}>
-      <div className="card w-full max-w-md p-8" style={{ maxWidth: '28rem' }}>
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-extrabold text-gradient mb-3">Create Account</h2>
-          <p className="text-gray-600 text-lg">Join us today</p>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: '#fafafa' }}>
+      <div className="card" style={{ width: '100%', maxWidth: '400px', padding: '32px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h2 style={{ fontSize: '28px', fontWeight: 700, color: '#fc8019', marginBottom: '8px' }}>Create Account</h2>
+          <p style={{ color: '#666', fontSize: '16px' }}>Join us today</p>
         </div>
         
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6">
-            <p className="font-semibold">{error}</p>
+          <div style={{ background: '#fff5f5', borderLeft: '4px solid #ff3f6c', color: '#ff1744', padding: '12px 16px', borderRadius: '4px', marginBottom: '24px' }}>
+            <p style={{ fontWeight: 600 }}>{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Full Name</label>
+            <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Full Name</label>
             <input
               type="text"
               placeholder="Enter your full name"
@@ -50,7 +50,7 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Email Address</label>
+            <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Email Address</label>
             <input
               type="email"
               placeholder="Enter your email"
@@ -62,7 +62,7 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Password</label>
+            <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Password</label>
             <input
               type="password"
               placeholder="Create a password"
@@ -81,9 +81,9 @@ const Register = () => {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-gray-600">
+        <p style={{ marginTop: '24px', textAlign: 'center', color: '#666', fontSize: '14px' }}>
           Already have an account?{' '}
-          <a href="/login" className="text-indigo-600 font-semibold underline" style={{ textDecoration: 'underline' }}>
+          <a href="/login" style={{ color: '#fc8019', fontWeight: 600, textDecoration: 'underline' }}>
             Sign In
           </a>
         </p>
