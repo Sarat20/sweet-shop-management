@@ -9,7 +9,9 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const existingUser = await User.findOne({ email: normalizedEmail });
   if (existingUser) {
     return res.status(400).json({ message: "email already exists" });
   }
@@ -18,7 +20,7 @@ router.post("/register", async (req, res) => {
 
   const user = await User.create({
     name,
-    email,
+    email: normalizedEmail,
     password: hashedPassword,
   });
 
@@ -32,7 +34,9 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const user = await User.findOne({ email: normalizedEmail });
   if (!user) {
     return res.status(401).json({ message: "invalid credentials" });
   }
