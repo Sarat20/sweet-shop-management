@@ -58,13 +58,15 @@ const SweetCard = ({ sweet, reload, isAdmin, onEdit, onDelete }) => {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <button
-          onClick={handlePurchase}
-          disabled={sweet.quantity === 0 || loading}
-          className="purchase-btn"
-        >
-          {loading ? 'Processing...' : 'Purchase Now'}
-        </button>
+        {!isAdmin && (
+          <button
+            onClick={handlePurchase}
+            disabled={sweet.quantity === 0 || loading}
+            className="purchase-btn"
+          >
+            {loading ? 'Processing...' : 'Purchase Now'}
+          </button>
+        )}
 
         {isAdmin && (
           <div style={{ display: 'flex', gap: '8px' }}>

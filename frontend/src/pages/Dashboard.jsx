@@ -163,14 +163,16 @@ const Dashboard = () => {
         {showAddForm && userIsAdmin && (
           <div style={{ marginBottom: '32px' }}>
             {editingSweet ? (
-              <EditSweetForm
-                sweet={editingSweet}
-                onUpdate={handleUpdate}
-                onCancel={() => {
-                  setEditingSweet(null)
-                  setShowAddForm(false)
-                }}
-              />
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <EditSweetForm
+                  sweet={editingSweet}
+                  onUpdate={handleUpdate}
+                  onCancel={() => {
+                    setEditingSweet(null)
+                    setShowAddForm(false)
+                  }}
+                />
+              </div>
             ) : (
               <AddSweetForm
                 onSuccess={() => {
@@ -248,8 +250,8 @@ const EditSweetForm = ({ sweet, onUpdate, onCancel }) => {
   }
 
   return (
-    <div className="card p-6">
-      <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#fc8019', marginBottom: '24px' }}>Edit Sweet</h3>
+    <div className="card p-6" style={{ width: '100%', maxWidth: '500px' }}>
+      <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#fc8019', marginBottom: '24px', textAlign: 'center' }}>Edit Sweet</h3>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
           <label style={{ display: 'block', color: '#333', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Sweet Name</label>
