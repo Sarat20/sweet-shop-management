@@ -1,0 +1,121 @@
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import '../index.css'
+
+const Landing = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/dashboard')
+    }
+  }, [navigate])
+
+  return (
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      background: '#fff'
+    }}>
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '40px',
+        background: 'linear-gradient(135deg, #fc8019 0%, #ff6b35 100%)'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          color: '#fff'
+        }}>
+          <h1 style={{
+            fontSize: '64px',
+            fontWeight: 800,
+            marginBottom: '20px',
+            textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
+          }}>
+            Sweet Shop
+          </h1>
+          <p style={{
+            fontSize: '24px',
+            fontStyle: 'italic',
+            marginTop: '30px',
+            opacity: 0.95
+          }}>
+            "Buy sweets, spread happiness"
+          </p>
+        </div>
+        <div style={{
+          marginTop: '60px',
+          fontSize: '120px'
+        }}>
+          🍬
+        </div>
+      </div>
+      
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '40px',
+        background: '#fff'
+      }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '400px'
+        }}>
+          <Link
+            to="/login"
+            style={{
+              display: 'block',
+              width: '100%',
+              padding: '16px',
+              marginBottom: '16px',
+              background: '#fc8019',
+              color: '#fff',
+              textAlign: 'center',
+              borderRadius: '4px',
+              textDecoration: 'none',
+              fontWeight: 600,
+              fontSize: '16px',
+              transition: 'background 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.background = '#e6700a'}
+            onMouseLeave={(e) => e.target.style.background = '#fc8019'}
+          >
+            Login
+          </Link>
+          
+          <Link
+            to="/register"
+            style={{
+              display: 'block',
+              width: '100%',
+              padding: '16px',
+              background: '#fff',
+              color: '#333',
+              textAlign: 'center',
+              borderRadius: '4px',
+              textDecoration: 'none',
+              fontWeight: 600,
+              fontSize: '16px',
+              border: '2px solid #e8e8e8',
+              transition: 'border-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.borderColor = '#fc8019'}
+            onMouseLeave={(e) => e.target.style.borderColor = '#e8e8e8'}
+          >
+            Register
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Landing

@@ -16,9 +16,15 @@ const Register = () => {
 
     try {
       await api.post('/auth/register', { name, email, password })
+      setName('')
+      setEmail('')
+      setPassword('')
       navigate('/login')
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed')
+      setName('')
+      setEmail('')
+      setPassword('')
     }
   }
 
@@ -83,7 +89,7 @@ const Register = () => {
 
         <p style={{ marginTop: '24px', textAlign: 'center', color: '#666', fontSize: '14px' }}>
           Already have an account?{' '}
-          <a href="/login" style={{ color: '#fc8019', fontWeight: 600, textDecoration: 'underline' }}>
+          <a href="/login" style={{ color: '#333', fontWeight: 600, textDecoration: 'underline' }}>
             Sign In
           </a>
         </p>
