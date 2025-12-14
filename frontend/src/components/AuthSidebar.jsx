@@ -1,3 +1,4 @@
+import React from 'react'
 import sweetsImage from '../assets/sweets.jpg'
 import '../index.css'
 
